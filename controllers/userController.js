@@ -73,6 +73,22 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
- 
+  // /api/users/:userid/friends/:friendId
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $push: { friends: req.params.friendId } },
+      { new: true }
+    )
+      .then((user) => {
+        if (!user) {
+          res.status(404).json({ message: 'No users found with this id' });
+          return;
+        }
+        res.json(user);
+      })
+      .catch((err) => res.status(400).json(err));
+  },
+
 };
 
