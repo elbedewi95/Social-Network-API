@@ -57,5 +57,22 @@ module.exports = {
       .catch(err => res.json(err));
   },
 
+  //Delete user and his thoughts
+  deleteUser(req, res) {
+    Thought.deleteMany({ userId: req.params.id })
+      .then(() => {
+        User.findOneAndDelete({ userId: req.params.id })
+          .then(user => {
+            if (!user) {
+              res.status(404).json({ message: 'No Users found with this id!' });
+              return;
+            }
+            res.json(user);
+          });
+      })
+      .catch(err => res.json(err));
+  },
+
+ 
 };
 
