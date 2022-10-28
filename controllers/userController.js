@@ -6,7 +6,7 @@ module.exports = {
   getUsers(req, res) {
     User.find({})
       .select('-__v')
-      .then(Users => res.json(Users))
+      .then(users => res.json(users))
       .catch(err => {
         console.log(err);
         res.sendStatus(400);
@@ -23,12 +23,12 @@ module.exports = {
         path: 'friends',
         select: '-__v'
       })
-      .then(User => {
-        if (!User) {
+      .then(user => {
+        if (!user) {
           res.status(404).json({ message: 'No Users found with this id!' });
           return;
         }
-        res.json(User);
+        res.json(user);
       })
       .catch(err => {
         console.log(err);
